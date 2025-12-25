@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shubho Dey | Systems & Growth</title>
+    <meta name="description" content="Helping businesses build automated systems that sell and scale.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Custom Utilities */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .cursor-wait {
+            cursor: wait;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 font-sans text-slate-800 selection:bg-blue-100 selection:text-blue-900 pb-20">
+
+    <!-- Video Modal Overlay (Hidden by default) -->
+    <div id="video-modal"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 hidden fade-in">
+        <div class="relative w-full max-w-3xl aspect-video bg-black rounded-xl overflow-hidden shadow-2xl">
+            <button onclick="closeVideoModal()"
+                class="absolute top-4 right-4 z-10 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <iframe id="video-frame" class="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="max-w-md md:max-w-2xl lg:max-w-4xl mx-auto bg-white min-h-screen shadow-xl relative overflow-hidden">
+
+        <!-- ================= HERO SECTION ================= -->
+        <div class="relative pt-12 pb-24 px-6 text-center">
+            <!-- Background: Inlined style for immediate render -->
+            <div id="hero-bg" class="absolute inset-0 z-0 opacity-90"
+                style="background-size:cover;background-position:center;background-image: linear-gradient(to bottom, rgba(0,0,0,0.45), rgba(0,0,0,0.6)), url('https://d1yei2z3i6k35z.cloudfront.net/1195232/694d24e1c7b51_ChatGPTImageDec25202505_19_40PM.png?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+            </div>
+
+            <div class="relative z-10 flex flex-col items-center">
+                <!-- H1: White text + Shadow -->
+                <h1
+                    class="text-xl md:text-2xl font-bold leading-relaxed text-white drop-shadow-[0_6px_14px_rgba(0,0,0,0.45)] mb-8 max-w-lg mx-auto">
+                    “My mission is to help businesses build automated systems that sell, scale, and run with less manual
+                    effort.”
+                </h1>
+
+                <!-- Avatar: Src inlined + loading="eager" -->
+                <div class="relative mb-4">
+                    <div class="w-32 h-32 rounded-full border-4 border-white shadow-lg overflow-hidden bg-slate-200">
+                        <img id="avatar-img"
+                            src="https://d1yei2z3i6k35z.cloudfront.net/1195232/694d20f7381e8_Gemini_Generated_Image_e8prrpe8prrpe8pr.png?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80"
+                            loading="eager" alt="Shubho Dey" class="w-full h-full object-cover" />
+                    </div>
+                </div>
+
+                <h2
+                    class="text-2xl font-black tracking-tight text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.45)] uppercase">
+                    Shubho Dey</h2>
+                <p class="text-sm font-medium text-slate-200 mt-1 flex items-center gap-2">
+                    Solo Builder <span class="w-1 h-1 bg-slate-400 rounded-full"></span> Systems & Growth
+                </p>
+
+            </div>
+        </div>
+
+        <!-- ================= NEWSLETTER SECTION ================= -->
+        <div class="px-6 -mt-12 relative z-20 mb-12">
+            <div
+                class="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden border border-slate-100 p-6 border-t-4 border-t-blue-600">
+                <h3 class="text-lg font-bold text-slate-900 mb-1">Subscribe to my Newsletter</h3>
+                <p class="text-slate-600 text-sm mb-4">Get weekly systems, automation tips, and growth hacks.</p>
+
+                <form id="newsletter-form" onsubmit="handleNewsletterSubmit(event)" class="space-y-3">
+                    <div>
+                        <input type="text" name="name" placeholder="First Name" required
+                            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" />
+                    </div>
+                    <div>
+                        <input type="email" name="email" placeholder="Email Address" required
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" />
+                    </div>
+
+                    <button type="submit" id="newsletter-btn"
+                        class="w-full py-3 px-4 rounded-lg font-bold text-white shadow-md transition-all flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 hover:shadow-lg active:scale-[0.98]">
+                        Subscribe
+                    </button>
+                </form>
+
+                <div id="newsletter-success"
+                    class="hidden mt-3 p-2 bg-green-50 text-green-700 text-xs rounded text-center fade-in">
+                    Welcome aboard! Check your inbox for confirmation.
+                </div>
+
+                <p class="text-center text-xs text-slate-400 mt-4 flex items-center justify-center gap-1">
+                    <span class="w-1.5 h-1.5 bg-green-400 rounded-full"></span>
+                    We only email once a week — your info is secure.
+                </p>
+            </div>
+        </div>
+
+        <!-- ================= COURSES SECTION ================= -->
+        <section class="mb-12">
+            <div class="px-6 mb-4 flex items-baseline justify-between">
+                <h3 class="text-xl font-bold text-slate-800">Free Courses & Playbooks</h3>
+                <span class="text-xs font-medium text-blue-600 uppercase tracking-wider">Premium</span>
+            </div>
+
+            <div id="courses-container"
+                class="flex overflow-x-auto pb-6 px-6 gap-4 snap-x snap-mandatory scrollbar-hide lg:grid lg:grid-cols-3 lg:overflow-visible">
+                <!-- Skeleton for Courses (Removed by JS) -->
+                <div
+                    class="bg-white rounded-2xl shadow-sm border border-slate-100 min-w-[85%] sm:min-w-[300px] h-full animate-pulse">
+                    <div class="aspect-video bg-slate-200"></div>
+                    <div class="p-4 space-y-3">
+                        <div class="h-4 bg-slate-200 rounded w-3/4"></div>
+                        <div class="h-3 bg-slate-200 rounded w-full"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SOCIALS SECTION ================= -->
+        <section class="mb-12 px-6">
+            <div class="mb-6">
+                <h3 class="text-xl font-bold text-slate-800">Follow me</h3>
+                <p class="text-sm text-slate-500">Join the conversation across platforms</p>
+            </div>
+
+            <div id="socials-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Skeleton for Socials (Removed by JS) -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 flex flex-col animate-pulse">
+                    <div class="p-3 flex items-center gap-3 border-b border-slate-50">
+                        <div class="w-8 h-8 bg-slate-200 rounded-lg"></div>
+                        <div class="h-4 bg-slate-200 rounded w-24"></div>
+                    </div>
+                    <div class="aspect-video bg-slate-200"></div>
+                    <div class="p-3 bg-white h-10"></div>
+                </div>
+            </div>
+
+            <!-- Mobile pagination hint -->
+            <div class="flex justify-center gap-1.5 mt-4 md:hidden">
+                <div class="w-1.5 h-1.5 rounded-full bg-blue-600"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-slate-300"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-slate-300"></div>
+            </div>
+        </section>
+
+        <!-- ================= PROJECTS SECTION ================= -->
+        <section class="mb-12 px-6">
+            <h3 class="text-xl font-bold text-slate-800 mb-4">Projects</h3>
+            <div id="projects-container" class="grid gap-4 sm:grid-cols-3">
+                <!-- Skeleton for Projects (Removed by JS) -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 h-full animate-pulse">
+                    <div class="aspect-[16/9] bg-slate-200"></div>
+                    <div class="p-4 space-y-2">
+                        <div class="h-4 bg-slate-200 rounded w-1/2"></div>
+                        <div class="h-3 bg-slate-200 rounded w-3/4"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TESTIMONIALS SECTION ================= -->
+        <section class="mb-16 bg-slate-50 py-8 border-y border-slate-100">
+            <div class="px-6">
+                <h3 class="text-xl font-bold text-slate-800 mb-6 text-center">What people say</h3>
+
+                <div id="testimonials-container"
+                    class="flex overflow-x-auto gap-4 pb-4 snap-x snap-mandatory scrollbar-hide">
+                    <!-- Skeleton for Testimonials (Removed by JS) -->
+                    <div
+                        class="min-w-[300px] max-w-[320px] bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col gap-4 animate-pulse">
+                        <div class="h-20 bg-slate-200 rounded"></div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-slate-200"></div>
+                            <div class="space-y-2">
+                                <div class="h-3 bg-slate-200 rounded w-24"></div>
+                                <div class="h-2 bg-slate-200 rounded w-16"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= CONTACT SECTION ================= -->
+        <section class="px-6 mb-20 max-w-lg mx-auto w-full">
+            <div class="text-center mb-8">
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Get in touch</h3>
+                <p class="text-slate-500 text-sm">Have a project in mind? Let's build.</p>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Info Cards -->
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a id="contact-email-link" href="mailto:info@indishmarketer.com"
+                        class="flex-1 bg-blue-50 p-4 rounded-xl flex flex-col items-center justify-center gap-2 hover:bg-blue-100 transition-colors border border-blue-100 group">
+                        <div
+                            class="p-2 bg-white rounded-full text-blue-600 shadow-sm group-hover:scale-110 transition-transform">
+                            <i data-lucide="mail" class="w-5 h-5"></i>
+                        </div>
+                        <!-- Inlined Contact Email -->
+                        <span id="contact-email-text"
+                            class="text-sm font-medium text-slate-700">info@indishmarketer.com</span>
+                    </a>
+                    <div
+                        class="flex-1 bg-slate-50 p-4 rounded-xl flex flex-col items-center justify-center gap-2 border border-slate-100 text-center">
+                        <div class="p-2 bg-white rounded-full text-slate-600 shadow-sm">
+                            <i data-lucide="map-pin" class="w-5 h-5"></i>
+                        </div>
+                        <div class="text-xs text-slate-500">
+                            <!-- Inlined Address -->
+                            <p id="address-line-1">TrentHouse, Near RKM</p>
+                            <p id="address-line-2">793108, Sohra (Cherrapunjee), E.K Hills, Meghalaya</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div
+                    class="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden border border-slate-100 p-6">
+                    <form id="contact-form" onsubmit="handleContactSubmit(event)" class="space-y-4">
+                        <div>
+                            <label for="contact-name"
+                                class="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wide">Name</label>
+                            <input id="contact-name" name="contact-name" type="text" required
+                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" />
+                        </div>
+
+                        <div>
+                            <label for="contact-email"
+                                class="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wide">Email</label>
+                            <input id="contact-email-input" name="contact-email" type="email" required
+                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" />
+                        </div>
+
+                        <div>
+                            <label for="contact-message"
+                                class="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wide">Message</label>
+                            <textarea id="contact-message" name="contact-message" rows="4" required
+                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none"></textarea>
+                        </div>
+
+                        <button type="submit" id="contact-btn"
+                            class="w-full py-3 px-6 rounded-lg font-bold text-white shadow-md hover:shadow-lg transition-all bg-slate-900 hover:bg-slate-800">
+                            Send Message
+                        </button>
+
+                        <p id="contact-error"
+                            class="hidden text-center text-xs text-red-500 flex items-center justify-center gap-1 mt-2">
+                            <i data-lucide="alert-circle" class="w-3 h-3"></i> Something went wrong. Please try again.
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= FOOTER ================= -->
+        <footer class="bg-slate-50 py-12 px-6 text-center border-t border-slate-100">
+            <div class="flex justify-center gap-6 mb-8 text-slate-400">
+                <a href="https://x.com/indishmarketer" class="hover:text-blue-600 transition-colors"><i
+                        data-lucide="twitter" class="w-5 h-5"></i></a>
+                <a href="https://www.linkedin.com/in/indishmarketer/" class="hover:text-blue-600 transition-colors"><i
+                        data-lucide="linkedin" class="w-5 h-5"></i></a>
+                <a href="https://www.indishmarketer.com/" class="hover:text-blue-600 transition-colors"><i
+                        data-lucide="globe" class="w-5 h-5"></i></a>
+            </div>
+            <p class="text-xs text-slate-400 mb-4">
+                &copy; <span id="year"></span> Shubho Dey. All rights reserved.
+            </p>
+            <div class="flex justify-center gap-4 text-xs text-slate-400">
+                <a href="https://www.indishmarketer.com/privacy-policy/"
+                    class="hover:text-slate-600 underline decoration-slate-300">Privacy Policy</a>
+                <span class="text-slate-300">•</span>
+                <a href="https://www.indishmarketer.com/terms-conditions/"
+                    class="hover:text-slate-600 underline decoration-slate-300">Terms of Service</a>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        /* ========================================
+          CONFIGURATION & DATA
+          ========================================
+        */
+        const AVATAR_URL = "https://d1yei2z3i6k35z.cloudfront.net/1195232/694d20f7381e8_Gemini_Generated_Image_e8prrpe8prrpe8pr.png?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80";
+        const HERO_BG_URL = "https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80";
+        const WEBHOOK_URL = "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjcwNTZkMDYzMDA0MzU1MjZkNTUzNjUxMzMi_pc";
+        const CONTACT_EMAIL = "info@indishmarketer.com";
+        const ADDRESS_LINE_1 = "TrentHouse, Near RKM";
+        const ADDRESS_LINE_2 = "793108, Sohra (Cherrapunjee), E.K Hills, Meghalaya";
+
+        const COURSES = [
+            { title: "Reddit Marketing Playbook", desc: "The Complete Reddit Marketing Playbook That Actually Works.", thumb: "https://d1yei2z3i6k35z.cloudfront.net/1195232/68d01bc6aa05f_Gemini_Generated_Image_el0eyiel0eyiel0e.png?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", url: "https://www.makemoneywithshubh.com/optin" },
+            { title: "30-Day Medium Writing Challenge", desc: "Start A Medium Blog With AI And Create 4 Income Streams.", thumb: "https://d1yei2z3i6k35z.cloudfront.net/1195232/676aa3db4672f_download1.png?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", url: "https://www.makemoneywithshubh.com/medium-writing-course" },
+            { title: "Free AI Business Assessment", desc: "Find out if starting an online business is right for you..", thumb: "https://d1yei2z3i6k35z.cloudfront.net/1195232/694cf9a407d1f_ChatGPTImageDec25202502_13_07PM.png?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", url: "https://www.makemoneywithshubh.com/form" }
+        ];
+
+        const SOCIALS = [
+            { platform: "YouTube", icon: "youtube", thumb: "https://d1yei2z3i6k35z.cloudfront.net/1195232/694d041bca925_Gemini_Generated_Image_x5kb2qx5kb2qx5kb.png?w=600&q=80", blurb: "Tech, Money & AI stacks.", action: "Subscribe", url: "https://www.youtube.com/@indishmarketer", videoEmbed: "https://www.youtube.com/embed/idJNHHnXHTk" },
+            { platform: "Personal Blog", icon: "file-text", thumb: "https://www.hostinger.com/ph/tutorials/wp-content/uploads/sites/44/2022/03/evernote-blog-1536x764.png?w=600&q=80", blurb: "Long Form Content on Systems & AI.", action: "Read", url: "https://www.indishmarketer.com/" },
+            { platform: "AI YouTube", icon: "youtube", thumb: "https://www.cined.com/content/uploads/2025/07/IMG_0716-1536x862.jpeg?w=600&q=80", blurb: "AI Powered Book & Product Reviews.", action: "Subscribe", url: "https://www.youtube.com/@theworldentrepreneurs", videoEmbed: "https://www.youtube.com/embed/zCFARIL1eFU" },
+            { platform: "Instagram", icon: "instagram", thumb: "https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/E802/production/_89649395_instagram_logo_976.jpg.webp?w=600&q=80", blurb: "Visual stories & Tech Frameworks.", action: "Follow", url: "https://www.instagram.com/shubh.frameworks/" },
+            { platform: "Pinterest", icon: "image", thumb: "https://neilpatel.com/wp-content/uploads/2017/09/Pinterest.jpg?w=600&q=80", blurb: "AI Tools & Automation Visuals.", action: "Follow", url: "https://www.pinterest.com/indishmarketer/" },
+            { platform: "LinkedIn", icon: "linkedin", thumb: "https://cdn.prod.website-files.com/632194ff304e3aa238ad7ab8/6390ff1c980724f80803f3a6_A%20beginner%27s%20guide%20to%20LinkedIn-p-2000.webp?w=600&q=80", blurb: "Short-form stories on growth.", action: "Connect", url: "https://www.linkedin.com/in/indishmarketer" },
+            { platform: "Reddit", icon: "message-square", thumb: "https://images.ctfassets.net/lzny33ho1g45/how-to-use-reddit-p-img/53846daa58db6447804f4b21d55d4a1f/file.png?w=600&q=80", blurb: "Community discussions & AMAs.", action: "Join", url: "https://www.reddit.com/user/indishmarketer/" },
+            { platform: "Medium", icon: "book-open", thumb: "https://miro.medium.com/v2/resize:fit:1100/format:webp/1*RB1rxSK_TBmcC5D2PN30JA.png?w=600&q=80", blurb: "Medium-length AI articles.", action: "Read", url: "https://medium.com/@shubhodey" }
+        ];
+
+        const PROJECTS = [
+            { name: "AutoScale CRM (Coming Soon)", desc: "A lightweight CRM for solo founders.", thumb: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80", url: "https://indishmarketer.github.io/comingsoon/" },
+            { name: "GrowthKit UI (Coming Soon)", desc: "React component library for landing pages.", thumb: "https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=600&q=80", url: "https://indishmarketer.github.io/comingsoon/" },
+            { name: "MetricDash (Coming Soon)", desc: "Consolidated analytics dashboard.", thumb: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80", url: "https://indishmarketer.github.io/comingsoon/" },
+        ];
+
+        const TESTIMONIALS = [
+            { text: "Hi everyone. I spoke with Shubho, and he jumped on a call to guide me through Instagram. I was looking for someone to help me with a clear strategy on how to grow my Instagram page. He wasn’t salesy at all—instead, he explained the tactics step by step and showed me how to approach it properly. It was really great talking to him, and he’s genuinely very knowledgeable in this space. Thanks a lot, really appreciate it.", author: "Ayush", role: "Dropshipper", avatar: "https://d1yei2z3i6k35z.cloudfront.net/1195232/694d1429cfcfa_Ayush.png", video: "https://www.youtube.com/embed/wXitR1pwyl4" },
+            { text: "I've been working with Shubho for 2 months. Because I found him through one of his videos on YouTube, and he gave me value before ever making me an offer - I was not hesitant to begin working with him. In a world of unreliable and untrustworthy people, Shubho has always shown up for me. He's tailored his approach to my unique goals. When we're working together it feels more like a team coach/consultant dynamic. Shubho has a vast array of experience which is valuable as an entrepreneur - you want someone that understands that many hats you must wear to be successful. Paying a stranger on the internet can be scary, but working with Shubho was one of the best decisions I've made in 2024.", author: "Perry Petrozelli", role: "Cofounder, Elevate Motor Company", avatar: "https://d1yei2z3i6k35z.cloudfront.net/1195232/694d10de24fe5_1731612206675.jpg" },
+            { text: "This was my first time speaking with Shubho, and it was a great experience. He shared valuable insights on business and affiliate marketing and gave me a lot of clarity. I couldn’t join his coaching right now due to financial reasons, but I definitely plan to come back and learn from him. I really encourage others to talk to him as well.", author: "Kenda Chang", role: "Chinese Business Coach", avatar: "https://d1yei2z3i6k35z.cloudfront.net/1195232/694d18e18007c_Kenda.png", video: "https://www.youtube.com/embed/pviZIvT6dgU" },
+        ];
+
+        /* ========================================
+          INITIALIZATION
+          ========================================
+        */
+        document.addEventListener('DOMContentLoaded', () => {
+            // NOTE: Hero BG, Avatar, and Contact Info assignments have been removed 
+            // as they are now pre-rendered in HTML for performance.
+
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            // Render Sections (will replace skeletons)
+            renderCourses();
+            renderSocials();
+            renderProjects();
+            renderTestimonials();
+
+            // Initialize Icons
+            lucide.createIcons();
+        });
+
+        /* ========================================
+          RENDER FUNCTIONS
+          ========================================
+        */
+        function renderCourses() {
+            const container = document.getElementById('courses-container');
+            container.innerHTML = COURSES.map(course => `
+                <div class="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden border border-slate-100 min-w-[85%] sm:min-w-[300px] lg:min-w-0 lg:w-full snap-center flex flex-col group h-full">
+                    <div class="aspect-video bg-slate-200 relative overflow-hidden">
+                        <img src="${course.thumb}" alt="${course.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+                            <span class="text-white text-xs font-bold bg-blue-600 px-2 py-0.5 rounded shadow-sm">COURSE</span>
+                        </div>
+                    </div>
+                    <div class="p-4 flex-1 flex flex-col">
+                        <h4 class="font-bold text-slate-900 leading-tight mb-2">${course.title}</h4>
+                        <p class="text-sm text-slate-500 mb-4 line-clamp-2 flex-1">${course.desc}</p>
+                        <a href="${course.url}" class="w-full py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-700 font-semibold text-sm hover:bg-slate-100 hover:border-slate-300 transition-colors text-center">
+                            Get Access
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderSocials() {
+            const container = document.getElementById('socials-container');
+            container.innerHTML = SOCIALS.map(social => `
+                <div class="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden border border-slate-100 flex flex-col group">
+                    <div class="p-3 flex items-center gap-3 border-b border-slate-50">
+                        <div class="p-1.5 bg-slate-100 rounded-lg text-slate-700">
+                            <i data-lucide="${social.icon}" class="w-4 h-4"></i>
+                        </div>
+                        <span class="font-semibold text-sm text-slate-700">${social.platform}</span>
+                    </div>
+                    <div class="relative aspect-video bg-slate-100 overflow-hidden cursor-pointer group/image" onclick="${social.videoEmbed ? `openVideoModal('${social.videoEmbed}')` : `window.open('${social.url}', '_blank')`}">
+                        <img src="${social.thumb}" alt="${social.platform}" class="w-full h-full object-cover" loading="lazy" />
+                        ${social.videoEmbed ? `
+                        <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover/image:bg-black/30 transition-colors">
+                            <div class="w-10 h-10 bg-white/90 rounded-full flex items-center justify-center shadow-lg text-blue-600 backdrop-blur-sm">
+                                <i data-lucide="play" class="w-4 h-4 ml-0.5 fill-current"></i>
+                            </div>
+                        </div>` : ''}
+                    </div>
+                    <div class="p-3 bg-white flex items-center justify-between gap-2">
+                        <span class="text-xs text-slate-500 line-clamp-1">${social.blurb}</span>
+                        <a href="${social.url}" target="_blank" rel="noopener noreferrer" class="shrink-0 px-3 py-1.5 bg-slate-900 text-white text-xs font-bold rounded-md hover:bg-blue-600 transition-colors">
+                            ${social.action}
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderProjects() {
+            const container = document.getElementById('projects-container');
+            container.innerHTML = PROJECTS.map(project => `
+                <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="group block">
+                    <div class="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden border border-slate-100 h-full">
+                        <div class="aspect-[16/9] bg-slate-200 overflow-hidden">
+                            <img src="${project.thumb}" alt="${project.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-slate-900 text-sm group-hover:text-blue-600 transition-colors flex items-center justify-between">
+                                ${project.name}
+                                <i data-lucide="arrow-right" class="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-blue-600"></i>
+                            </h4>
+                            <p class="text-xs text-slate-500 mt-1 leading-relaxed">${project.desc}</p>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        function renderTestimonials() {
+            const container = document.getElementById('testimonials-container');
+            container.innerHTML = TESTIMONIALS.map(t => `
+                <div class="min-w-[300px] max-w-[320px] snap-center bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
+                    <div>
+                        ${t.video ? `
+                        <div class="mb-4 rounded-xl overflow-hidden aspect-video relative group cursor-pointer" onclick="openVideoModal('${t.video}')">
+                            <div class="absolute inset-0 bg-slate-900/10 flex items-center justify-center">
+                                <i data-lucide="play" class="w-6 h-6 text-white drop-shadow-md fill-current"></i>
+                            </div>
+                            <img src="https://img.youtube.com/vi/${t.video.split('/').pop()}/mqdefault.jpg" alt="Video testimonial" class="w-full h-full object-cover"/>
+                        </div>` : `
+                        <div class="mb-4 text-yellow-400 text-sm">
+                            ${'★'.repeat(5)}
+                        </div>`}
+                        <p class="text-slate-700 text-sm italic leading-relaxed mb-6">"${t.text}"</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <img src="${t.avatar}" alt="${t.author}" class="w-10 h-10 rounded-full object-cover bg-slate-200" />
+                        <div>
+                            <p class="text-sm font-bold text-slate-900">${t.author}</p>
+                            <p class="text-xs text-slate-500">${t.role}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        /* ========================================
+          INTERACTION LOGIC
+          ========================================
+        */
+
+        async function sendToWebhook(data) {
+            await fetch(WEBHOOK_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+        }
+
+        // Modal Logic
+        function openVideoModal(url) {
+            const modal = document.getElementById('video-modal');
+            const iframe = document.getElementById('video-frame');
+            iframe.src = url;
+            modal.classList.remove('hidden');
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('video-modal');
+            const iframe = document.getElementById('video-frame');
+            iframe.src = ''; // Stop video
+            modal.classList.add('hidden');
+        }
+
+        // Newsletter Form
+        async function handleNewsletterSubmit(e) {
+            e.preventDefault();
+
+            const btn = document.getElementById('newsletter-btn');
+            const successMsg = document.getElementById('newsletter-success');
+
+            const name = e.target.name.value;
+            const email = e.target.email.value;
+
+            // Loading State
+            btn.disabled = true;
+            btn.innerHTML = '<div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>';
+            btn.classList.add('cursor-wait', 'opacity-75');
+
+            try {
+                await fetch(WEBHOOK_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        type: "newsletter",
+                        name: name,
+                        email: email,
+                        page: window.location.href
+                    })
+                });
+
+                // Success State
+                btn.innerHTML = 'Subscribed <i data-lucide="check-circle" class="w-4 h-4 ml-2"></i>';
+                btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                btn.classList.add('bg-green-600', 'hover:bg-green-700');
+                successMsg.classList.remove('hidden');
+                e.target.reset();
+                lucide.createIcons();
+
+            } catch (err) {
+                btn.innerText = "Error";
+                btn.disabled = false;
+            }
+        }
+
+
+        // Contact Form
+        async function handleContactSubmit(e) {
+            e.preventDefault();
+
+            const btn = document.getElementById('contact-btn');
+            const errorMsg = document.getElementById('contact-error');
+
+            const name = document.getElementById('contact-name').value;
+            const email = document.getElementById('contact-email-input').value;
+            const message = document.getElementById('contact-message').value;
+
+            // Loading State
+            btn.disabled = true;
+            btn.innerText = 'Sending...';
+            btn.classList.add('opacity-70', 'cursor-wait');
+
+            try {
+                await fetch(WEBHOOK_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        type: "contact",
+                        name: name,
+                        email: email,
+                        message: message,
+                        page: window.location.href
+                    })
+                });
+
+                // Success State
+                btn.innerText = 'Message Sent!';
+                btn.classList.remove('bg-slate-900', 'hover:bg-slate-800');
+                btn.classList.add('bg-green-600');
+                e.target.reset();
+
+            } catch (err) {
+                errorMsg.classList.remove('hidden');
+                btn.disabled = false;
+                btn.innerText = 'Send Message';
+                btn.classList.remove('opacity-70', 'cursor-wait');
+            }
+        }
+
+    </script>
+</body>
+
+</html>
