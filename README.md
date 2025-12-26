@@ -25,7 +25,7 @@ This page is designed to act as a **link-in-bio / personal landing page** with n
 - **Tailwind CSS (via CDN)**
 - **Vanilla JavaScript**
 - **Lucide Icons**
-- **Webhook (Pabbly / Zapier / Make)**
+- **Webhook (Pabbly / Zapier / Make / n8n)**
 
 ---
 
